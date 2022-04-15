@@ -1,7 +1,6 @@
 package md.ex.demo.service;
 
 import lombok.AllArgsConstructor;
-import md.ex.demo.dto.DateDto;
 import md.ex.demo.dto.UserDto;
 import md.ex.demo.mapper.Mapper;
 import md.ex.demo.model.Date;
@@ -11,8 +10,6 @@ import md.ex.demo.repository.DateRepository;
 import md.ex.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

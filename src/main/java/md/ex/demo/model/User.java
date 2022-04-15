@@ -5,7 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,6 +27,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Date> dates = new ArrayList<>();
+
+    @ElementCollection
+    @Column(name = "saved_id")
+    @CollectionTable(name = "user_id_saved_id", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<String> saved_ids = new LinkedHashSet<>();
 
     public void addDate(Date date) {
         this.dates.add(date);

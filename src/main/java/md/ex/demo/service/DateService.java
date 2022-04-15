@@ -5,11 +5,9 @@ import md.ex.demo.dto.DateDto;
 import md.ex.demo.mapper.Mapper;
 import md.ex.demo.model.Date;
 import md.ex.demo.model.Location;
-import md.ex.demo.model.User;
 import md.ex.demo.repository.DateRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

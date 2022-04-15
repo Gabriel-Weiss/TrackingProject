@@ -3,7 +3,6 @@ package md.ex.demo.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import md.ex.demo.model.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
