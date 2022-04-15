@@ -84,6 +84,7 @@ public class Mapper {
         userDto.setUserId(user.getUserId());
         userDto.setUserStatus(user.getUserStatus());
         userDto.setDates(datesDto);
+        userDto.setSavedIds(user.getSavedIds());
         return userDto;
     }
 
@@ -101,6 +102,7 @@ public class Mapper {
                 .map(Mapper::dtoDateToModelDate)
                 .collect(Collectors.toList());
         user.setDates(dates);
+        user.setSavedIds(user.getSavedIds());
         return user;
     }
 

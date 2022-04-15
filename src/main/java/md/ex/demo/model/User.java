@@ -31,7 +31,7 @@ public class User {
     @ElementCollection
     @Column(name = "saved_id")
     @CollectionTable(name = "user_id_saved_id", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<String> saved_ids = new LinkedHashSet<>();
+    private Set<String> savedIds = new LinkedHashSet<>();
 
     public void addDate(Date date) {
         this.dates.add(date);
