@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,15 +18,10 @@ import java.util.stream.Collectors;
 public class DateService {
 
     private final DateRepository dateRepository;
-    private final LocationService locationService;
 
     public Date getDateById(Long id) {
-        return dateRepository.findById(id)
-                .orElseThrow(
-                        () -> new NoSuchElementException(
-                                "Child object with id: " + id + " not present"
-                        )
-                );
+        return dateRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Child object with id: " + id + " not present"));
     }
 
     public DateDto getDate(Long id) {
@@ -37,9 +33,11 @@ public class DateService {
         List<Location> locations = dateDto.getLocations().stream()
                 .map(Mapper::dtoLocationToModelLocation)
                 .collect(Collectors.toList());
+        Set<String> codes = dateDto.getCodes();
         Date date = new Date();
         date.setDate(dateDto.getDate());
         locations.forEach(date::addLocation);
+        codes.forEach(date::addCode);
         dateRepository.save(date);
         return Mapper.modelDateToDtoDate(date);
     }

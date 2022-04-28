@@ -1,6 +1,7 @@
 package md.ex.demo.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import md.ex.demo.dto.UserDto;
 import md.ex.demo.mapper.Mapper;
 import md.ex.demo.model.Date;
@@ -16,19 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
-    private final DateRepository dateRepository;
-    private final DateService dateService;
 
     public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(
-                        () -> new NoSuchElementException(
-                                "User object with id: " + id + " not present"
-                        )
-                );
+        return userRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("User object with id: " + id + " not present"));
     }
 
     public UserDto getUser(Long id) {
@@ -49,16 +45,15 @@ public class UserService {
         User user = new User();
         dates.forEach(date -> {
             Date newDate = new Date();
-            date.getLocations().forEach(location -> {
-                newDate.addLocation(location);
-                newDate.setDate(date.getDate());
-            });
+            date.getLocations().forEach(newDate::addLocation);
+            newDate.setDate(date.getDate());
+            newDate.setSavedCodes(date.getSavedCodes());
             user.addDate(newDate);
         });
         user.setUserId(userDto.getUserId());
         user.setUserStatus(userDto.getUserStatus());
-        user.setSavedIds(userDto.getSavedIds());
         userRepository.save(user);
+        log.info("addUser() called with: userDto = [" + user + "]");
         return Mapper.modelUserToDtoUser(user);
     }
 }

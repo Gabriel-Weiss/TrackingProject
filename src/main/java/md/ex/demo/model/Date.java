@@ -6,7 +6,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +21,7 @@ public class Date {
     private Long id;
 
     @Column(name = "date")
-    private LocalDate date;
+    private String date;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
@@ -28,6 +30,10 @@ public class Date {
     @OneToMany(mappedBy = "date", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Location> locations = new ArrayList<>();
 
+    @ElementCollection
+    @Column(name = "saved_codes")
+    @CollectionTable(name = "date_saved_codes", joinColumns = @JoinColumn(name = "date_id"))
+    private Set<String> savedCodes = new LinkedHashSet<>();
 
     public void addLocation(Location location) {
         this.locations.add(location);
@@ -37,5 +43,13 @@ public class Date {
     public void removeLocation(Location location) {
         this.locations.remove(location);
         location.setDate(null);
+    }
+
+    public void addCode(String code) {
+        this.savedCodes.add(code);
+    }
+
+    public void removeCode(String code) {
+        this.savedCodes.remove(code);
     }
 }

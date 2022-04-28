@@ -9,6 +9,7 @@ import md.ex.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Mapper {
@@ -36,20 +37,22 @@ public class Mapper {
         location.setTime(locationDto.getTime());
         return location;
     }
-
-    public static List<Location> listDtoLocationToModelLocation(List<LocationDto> locationsDto) {
-        List<Location> locations = new ArrayList<>(locationsDto.size());
-        locationsDto.forEach(locationDto -> locations.add(dtoLocationToModelLocation(locationDto)));
-        return locations;
-    }
+//
+//    public static List<Location> listDtoLocationToModelLocation(List<LocationDto> locationsDto) {
+//        List<Location> locations = new ArrayList<>(locationsDto.size());
+//        locationsDto.forEach(locationDto -> locations.add(dtoLocationToModelLocation(locationDto)));
+//        return locations;
+//    }
 
     public static DateDto modelDateToDtoDate(Date date) {
         DateDto dateDto = new DateDto();
         List<LocationDto> locationsDto = date.getLocations().stream()
                 .map(Mapper::modelLocationToDtoLocation)
                 .collect(Collectors.toList());
+        Set<String> savedCodes = date.getSavedCodes();
         dateDto.setDate(date.getDate());
         dateDto.setLocations(locationsDto);
+        dateDto.setCodes(savedCodes);
         return dateDto;
     }
 
@@ -65,16 +68,18 @@ public class Mapper {
         List<Location> locations = dateDto.getLocations().stream()
                 .map(Mapper::dtoLocationToModelLocation)
                 .collect(Collectors.toList());
+        Set<String> codes = dateDto.getCodes();
         date.setDate(dateDto.getDate());
         date.setLocations(locations);
+        date.setSavedCodes(codes);
         return date;
     }
-
-    public static List<Date> listDtoDateToModelDate(List<DateDto> datesDto) {
-        List<Date> dates = new ArrayList<>(datesDto.size());
-        datesDto.forEach(dateDto -> dates.add(dtoDateToModelDate(dateDto)));
-        return dates;
-    }
+//
+//    public static List<Date> listDtoDateToModelDate(List<DateDto> datesDto) {
+//        List<Date> dates = new ArrayList<>(datesDto.size());
+//        datesDto.forEach(dateDto -> dates.add(dtoDateToModelDate(dateDto)));
+//        return dates;
+//    }
 
     public static UserDto modelUserToDtoUser(User user) {
         UserDto userDto = new UserDto();
@@ -84,31 +89,29 @@ public class Mapper {
         userDto.setUserId(user.getUserId());
         userDto.setUserStatus(user.getUserStatus());
         userDto.setDates(datesDto);
-        userDto.setSavedIds(user.getSavedIds());
         return userDto;
     }
-
-    public static List<UserDto> listModelUserToDtoUser(List<User> users) {
-        List<UserDto> usersDto = new ArrayList<>(users.size());
-        users.forEach(user -> usersDto.add(modelUserToDtoUser(user)));
-        return usersDto;
-    }
-
-    public static User dtoUserToModelUser(UserDto userDto) {
-        User user = new User();
-        user.setUserId(userDto.getUserId());
-        user.setUserStatus(userDto.getUserStatus());
-        List<Date> dates = userDto.getDates().stream()
-                .map(Mapper::dtoDateToModelDate)
-                .collect(Collectors.toList());
-        user.setDates(dates);
-        user.setSavedIds(user.getSavedIds());
-        return user;
-    }
-
-    public static List<User> listDtoUserToModelUser(List<UserDto> usersDto) {
-        List<User> users = new ArrayList<>(usersDto.size());
-        usersDto.forEach(userDto -> users.add(dtoUserToModelUser(userDto)));
-        return users;
-    }
+//
+//    public static List<UserDto> listModelUserToDtoUser(List<User> users) {
+//        List<UserDto> usersDto = new ArrayList<>(users.size());
+//        users.forEach(user -> usersDto.add(modelUserToDtoUser(user)));
+//        return usersDto;
+//    }
+//
+//    public static User dtoUserToModelUser(UserDto userDto) {
+//        User user = new User();
+//        user.setUserId(userDto.getUserId());
+//        user.setUserStatus(userDto.getUserStatus());
+//        List<Date> dates = userDto.getDates().stream()
+//                .map(Mapper::dtoDateToModelDate)
+//                .collect(Collectors.toList());
+//        user.setDates(dates);
+//        return user;
+//    }
+//
+//    public static List<User> listDtoUserToModelUser(List<UserDto> usersDto) {
+//        List<User> users = new ArrayList<>(usersDto.size());
+//        usersDto.forEach(userDto -> users.add(dtoUserToModelUser(userDto)));
+//        return users;
+//    }
 }

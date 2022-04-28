@@ -17,12 +17,8 @@ public class LocationService {
     private final LocationRepository locationRepository;
 
     public Location getLocationById(Long id) {
-        return locationRepository.findById(id)
-                .orElseThrow(
-                        () -> new NoSuchElementException(
-                                "Location object with id: " + id + " not present"
-                        )
-                );
+        return locationRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Location object with id: " + id + " not present"));
     }
 
     public LocationDto getLocation(Long id) {
