@@ -24,7 +24,7 @@ public class UserDto implements Serializable {
     @JsonProperty("userId")
     private String userId;
     @JsonProperty("userStatus")
-    private Boolean userStatus = false;
+    private Boolean userStatus;
     @JsonProperty("dates")
     private List<DateDto> dates = new ArrayList<>();
 }

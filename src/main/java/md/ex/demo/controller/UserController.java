@@ -5,11 +5,13 @@ import md.ex.demo.dto.UserDto;
 import md.ex.demo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
@@ -24,11 +26,10 @@ public class UserController {
                 .body(addUser);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getUsers() {
+    @GetMapping("/home")
+    public String getHomePage(Model model) {
         List<UserDto> users = userService.getUsers();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(users);
+        model.addAttribute("listOfUsers", users);
+        return "index";
     }
 }
