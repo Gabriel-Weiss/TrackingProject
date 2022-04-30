@@ -63,10 +63,9 @@ public class UserService {
         }
     }
 
-    public UserDto changeStatus(String userId) {
+    public void changeStatus(String userId) {
         User user = getByUserId(userId);
-        user.setUserStatus(true);
+        user.setUserStatus(!user.getUserStatus());
         userRepository.save(user);
-        return Mapper.modelUserToDtoUser(user);
     }
 }

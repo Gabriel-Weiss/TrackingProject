@@ -13,12 +13,12 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/user")
     public ResponseEntity<UserDto> addUser(@RequestBody final UserDto userDto) {
         UserDto addUser = userService.addUser(userDto);
         return ResponseEntity
@@ -26,7 +26,13 @@ public class UserController {
                 .body(addUser);
     }
 
-    @GetMapping("/home")
+    @GetMapping("update/{id}")
+    public String updateStatus(@PathVariable(value = "id") String id) {
+        userService.changeStatus(id);
+        return "redirect:/";
+    }
+
+    @GetMapping
     public String getHomePage(Model model) {
         List<UserDto> users = userService.getUsers();
         model.addAttribute("listOfUsers", users);
