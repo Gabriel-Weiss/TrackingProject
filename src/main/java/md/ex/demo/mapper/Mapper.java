@@ -87,6 +87,7 @@ public class Mapper {
                 .map(Mapper::modelDateToDtoDate)
                 .collect(Collectors.toList());
         userDto.setUserId(user.getUserId());
+        userDto.setPhone(user.getPhone());
         userDto.setUserStatus(user.getUserStatus());
         userDto.setDates(datesDto);
         return userDto;

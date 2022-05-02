@@ -7,10 +7,10 @@ import md.ex.demo.mapper.Mapper;
 import md.ex.demo.model.Date;
 import md.ex.demo.model.User;
 import md.ex.demo.repository.UserRepository;
+import md.ex.demo.twilio.TwilioService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TwilioService twilioService;
 
     public User getByUserId(String userId) {
         return userRepository.getByUserId(userId);
@@ -41,6 +42,7 @@ public class UserService {
         if (!existsByUserId) {
             User user = new User();
             user.setUserId(userDto.getUserId());
+            user.setPhone(userDto.getPhone());
             user.setUserStatus(userDto.getUserStatus());
             userRepository.save(user);
             log.info("addUser() called. Created: user = [" + user.getUserId() + "]");
@@ -66,6 +68,7 @@ public class UserService {
     public void changeStatus(String userId) {
         User user = getByUserId(userId);
         user.setUserStatus(!user.getUserStatus());
+        twilioService.sendMessage(user.getPhone(), twilioService.POZITIV_MSG);
         userRepository.save(user);
     }
 }

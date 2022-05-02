@@ -20,8 +20,11 @@ public class User {
     @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
 
-    @Column(name = "user_status", nullable = false)
-    private Boolean userStatus = false;
+    @Column(name = "phone", nullable = false, unique = true)
+    private String phone;
+
+    @Column(name = "user_status")
+    private Boolean userStatus;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Date> dates = new ArrayList<>();
