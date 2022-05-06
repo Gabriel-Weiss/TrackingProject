@@ -24,13 +24,28 @@ public class TwilioService {
     @Value("${twilio.carantina_msg}")
     public String CARANTINA_MSG;
 
-    public void sendMessage(String to, String message) {
+    private void initTwilio() {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    }
+
+    public void notifyInfected(String phoneNo) {
+        initTwilio();
         log.info("<______________________>Twilio service initialized");
         Message.creator(
-                        new PhoneNumber("+373" + to),
+                        new PhoneNumber("+373" + phoneNo),
                         new PhoneNumber(FROM_PHONE_NO),
-                        message)
+                        POZITIV_MSG)
+                .create();
+        log.info("<______________________>Twilio message sent");
+    }
+
+    public void notifyQuarantin(String phoneNo) {
+        initTwilio();
+        log.info("<______________________>Twilio service initialized");
+        Message.creator(
+                        new PhoneNumber("+373" + phoneNo),
+                        new PhoneNumber(FROM_PHONE_NO),
+                        CARANTINA_MSG)
                 .create();
         log.info("<______________________>Twilio message sent");
     }

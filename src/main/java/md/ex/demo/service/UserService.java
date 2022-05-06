@@ -10,8 +10,9 @@ import md.ex.demo.repository.UserRepository;
 import md.ex.demo.twilio.TwilioService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +23,9 @@ public class UserService {
     private final TwilioService twilioService;
 
     public User getByUserId(String userId) {
-        return userRepository.getByUserId(userId);
+        return userRepository.findByUserId(userId).orElseThrow(
+                () -> new NoSuchElementException("User with id" + userId + "not present")
+        );
     }
 
     public UserDto getUserByUserId(String userId) {
@@ -42,7 +45,9 @@ public class UserService {
         if (!existsByUserId) {
             User user = new User();
             user.setUserId(userDto.getUserId());
-            user.setPhone(userDto.getPhone());
+            user.setName(userDto.getUserName());
+            user.setEmail(userDto.getUserEmail());
+            user.setPhone(userDto.getUserPhone());
             user.setUserStatus(userDto.getUserStatus());
             userRepository.save(user);
             log.info("addUser() called. Created: user = [" + user.getUserId() + "]");
@@ -68,7 +73,21 @@ public class UserService {
     public void changeStatus(String userId) {
         User user = getByUserId(userId);
         user.setUserStatus(!user.getUserStatus());
-        twilioService.sendMessage(user.getPhone(), twilioService.POZITIV_MSG);
+//        twilioService.notifyInfected(user.getPhone());
+        log.info("notifyInfected(): called. Send Message with twilio service to " + user.getPhone());
+
+        List<String> list = user
+                        .getDates()
+                        .stream()
+                        .map(Date::getSavedCodes)
+                        .flatMap(Collection::stream)
+                        .distinct().collect(Collectors.toList());
+        list.forEach(s -> {
+            String userPhone = getUserByUserId(s).getUserPhone();
+//            twilioService.notifyQuarantin(userPhone);
+            log.info("notifyQuarantin(): called. Send Message with twilio service to " + userPhone);
+        });
+
         userRepository.save(user);
     }
 }

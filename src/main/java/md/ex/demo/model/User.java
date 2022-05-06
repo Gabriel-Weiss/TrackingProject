@@ -20,8 +20,14 @@ public class User {
     @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "phone", nullable = false, unique = true)
     private String phone;
+
+    @Column(name = "email", unique = true)
+    private String email;
 
     @Column(name = "user_status")
     private Boolean userStatus;
