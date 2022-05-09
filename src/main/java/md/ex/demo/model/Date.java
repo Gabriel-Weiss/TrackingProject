@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -38,18 +37,5 @@ public class Date {
     public void addLocation(Location location) {
         this.locations.add(location);
         location.setDate(this);
-    }
-
-    public void removeLocation(Location location) {
-        this.locations.remove(location);
-        location.setDate(null);
-    }
-
-    public void addCode(String code) {
-        this.savedCodes.add(code);
-    }
-
-    public void removeCode(String code) {
-        this.savedCodes.remove(code);
     }
 }

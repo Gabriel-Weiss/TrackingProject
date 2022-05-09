@@ -30,5 +30,4 @@ public class Location {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "date_id")
     private Date date;
-
 }

@@ -20,14 +20,8 @@ public class User {
     @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "phone", nullable = false, unique = true)
     private String phone;
-
-    @Column(name = "email", unique = true)
-    private String email;
 
     @Column(name = "user_status")
     private Boolean userStatus;
@@ -38,10 +32,5 @@ public class User {
     public void addDate(Date date) {
         this.dates.add(date);
         date.setUser(this);
-    }
-
-    public void removeDate(Date date) {
-        this.dates.remove(date);
-        date.setUser(null);
     }
 }
