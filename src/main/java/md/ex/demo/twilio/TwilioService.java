@@ -32,7 +32,7 @@ public class TwilioService {
         initTwilio();
         log.info("<______________________>Twilio service initialized");
         Message.creator(
-                        new PhoneNumber("+373" + phoneNo),
+                        new PhoneNumber(phoneNo),
                         new PhoneNumber(FROM_PHONE_NO),
                         POZITIV_MSG)
                 .create();
@@ -43,7 +43,7 @@ public class TwilioService {
         initTwilio();
         log.info("<______________________>Twilio service initialized");
         Message.creator(
-                        new PhoneNumber("+373" + phoneNo),
+                        new PhoneNumber(phoneNo),
                         new PhoneNumber(FROM_PHONE_NO),
                         CARANTINA_MSG)
                 .create();

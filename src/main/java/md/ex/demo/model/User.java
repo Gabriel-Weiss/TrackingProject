@@ -2,35 +2,19 @@ package md.ex.demo.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
+@Document(value = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;
-
-    @Column(name = "phone", nullable = false, unique = true)
+    private String id;
     private String phone;
-
-    @Column(name = "user_status")
-    private Boolean userStatus;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Boolean status;
     private List<Date> dates = new ArrayList<>();
-
-    public void addDate(Date date) {
-        this.dates.add(date);
-        date.setUser(this);
-    }
 }
