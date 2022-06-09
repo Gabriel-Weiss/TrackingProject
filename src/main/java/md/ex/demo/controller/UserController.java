@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;

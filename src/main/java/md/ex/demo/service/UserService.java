@@ -1,6 +1,6 @@
 package md.ex.demo.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import md.ex.demo.dto.UserDto;
 import md.ex.demo.mapper.DateMapper;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-@Service
-@AllArgsConstructor
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
