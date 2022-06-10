@@ -10,27 +10,27 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "clients")
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;
+    @Column(name = "uuid", nullable = false, unique = true)
+    private String clientId;
 
     @Column(name = "phone", nullable = false, unique = true)
     private String phone;
 
-    @Column(name = "user_status")
-    private Boolean userStatus;
+    @Column(name = "status")
+    private Boolean clientStatus;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Date> dates = new ArrayList<>();
 
     public void addDate(Date date) {
         this.dates.add(date);
-        date.setUser(this);
+        date.setClient(this);
     }
 }
