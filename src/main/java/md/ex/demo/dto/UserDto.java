@@ -20,10 +20,10 @@ public class UserDto implements Serializable {
 
     @NotNull
     @NotEmpty
-    private String email;
+    private String password;
+    private String matchingPassword;
 
     @NotNull
     @NotEmpty
-    private String password;
-
+    private String email;
 }
