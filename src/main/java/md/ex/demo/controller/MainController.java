@@ -23,7 +23,7 @@ public class MainController {
         return INDEX_PAGE;
     }
 
-    @GetMapping("update/{id}")
+    @GetMapping("/update/{id}")
     public String updateStatus(@PathVariable(value = "id") String id) {
         clientService.changeStatus(id);
         return "redirect:/";
