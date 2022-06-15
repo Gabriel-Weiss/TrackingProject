@@ -1,8 +1,8 @@
 package md.ex.demo.controller;
 
 import lombok.RequiredArgsConstructor;
-import md.ex.demo.dto.ClientDto;
-import md.ex.demo.service.ClientService;
+import md.ex.demo.dto.UserDto;
+import md.ex.demo.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +16,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @RequiredArgsConstructor
-public class ClientController {
+public class UserController {
 
-    private final ClientService clientService;
+    private final UserService userService;
     public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     @GetMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
@@ -35,11 +35,11 @@ public class ClientController {
     }
 
     @PostMapping("/add")
-    public void addUserEvent(@RequestBody ClientDto clientDto) {
-        ClientDto addClient = clientService.addClient(clientDto);
+    public void addUserEvent(@RequestBody UserDto userDto) {
+        UserDto addUser = userService.addUser(userDto);
         emitters.forEach(sseEmitter -> {
             try {
-                sseEmitter.send(SseEmitter.event().name("clients").data(addClient));
+                sseEmitter.send(SseEmitter.event().name("user_dto").data(addUser));
             } catch (IOException e) {
                 emitters.remove(sseEmitter);
             }

@@ -22,12 +22,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr data-th-each="client : ${listOfClients}">
-            <td th:text="${client.clientId}"></td>
-            <td th:text="${client.clientStatus}"></td>
+        <tr data-th-each="user : ${listOfUsers}">
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.userStatus}"></td>
             <td>
                 <div class="d-grid gap-2 d-md-block">
-                    <a th:href="@{/update/{id}(id=${client.clientId})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/update/{id}(id=${user.userId})}" class="btn btn-primary">Update</a>
                     <a class="btn btn-success">Details</a>
                 </div>
             </td>

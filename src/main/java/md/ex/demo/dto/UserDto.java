@@ -9,9 +9,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ClientDto implements Serializable {
-    private String clientId;
-    private String clientPhone;
-    private Boolean clientStatus = false;
+public class UserDto implements Serializable {
+    private String userId;
+    private String userPhone;
+    private Boolean userStatus = false;
     private List<DateDto> dates = new ArrayList<>();
 }

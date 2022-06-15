@@ -23,8 +23,8 @@ public class Date {
     private String date;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "date", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Location> locations = new ArrayList<>();
