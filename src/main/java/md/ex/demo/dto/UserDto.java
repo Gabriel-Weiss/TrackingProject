@@ -3,15 +3,27 @@ package md.ex.demo.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 public class UserDto implements Serializable {
-    private String userId;
-    private String userPhone;
-    private Boolean userStatus = false;
-    private List<DateDto> dates = new ArrayList<>();
+    @NotNull
+    @NotEmpty
+    private String firstName;
+
+    @NotNull
+    @NotEmpty
+    private String lastName;
+
+    @NotNull
+    @NotEmpty
+    private String email;
+
+    @NotNull
+    @NotEmpty
+    private String password;
+
 }
