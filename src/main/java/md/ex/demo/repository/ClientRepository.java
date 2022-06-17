@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Long> {
     boolean existsByClientId(String clientId);
 
+    void deleteByClientId(String clientId);
+
     Optional<Client> findByClientId(String clientId);
 }

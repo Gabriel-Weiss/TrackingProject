@@ -11,6 +11,7 @@ import md.ex.demo.repository.ClientRepository;
 import md.ex.demo.twilio.TwilioService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,16 +23,17 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    @SuppressWarnings("unused")
     private final TwilioService twilioService;
 
-    public Client getByUserId(String userId) {
-        return clientRepository.findByClientId(userId).orElseThrow(
-                () -> new NoSuchElementException("Client with id" + userId + " not present")
+    public Client getByClientId(String clientId) {
+        return clientRepository.findByClientId(clientId).orElseThrow(
+                () -> new NoSuchElementException("Client with id " + clientId + " not present")
         );
     }
 
-    public ClientDto getClientByUserId(String userId) {
-        Client client = getByUserId(userId);
+    public ClientDto getClientByClientId(String clientId) {
+        Client client = getByClientId(clientId);
         return ClientMapper.modelClientToDtoClient(client);
     }
 
@@ -53,7 +55,7 @@ public class ClientService {
             log.info("addUser() called. Created: client = [" + client.getClientId() + "]");
             return ClientMapper.modelClientToDtoClient(client);
         } else {
-            Client userByClientId = getByUserId(clientDto.getClientId());
+            Client userByClientId = getByClientId(clientDto.getClientId());
             List<Date> dates = clientDto.getDates().stream()
                     .map(DateMapper::dtoDateToModelDate)
                     .collect(Collectors.toList());
@@ -70,30 +72,37 @@ public class ClientService {
         }
     }
 
-    public void changeStatus(String userId) {
-        Client client = getByUserId(userId);
+    public void changeStatus(String clientId) {
+        Client client = getByClientId(clientId);
         client.setClientStatus(!client.getClientStatus());
 
-//        twilioService.notifyInfected(client.getPhone());
-        log.info("notifyInfected(): called. Send Message with twilio service to " + client.getPhone());
+        if (client.getClientStatus()) {
+            //        twilioService.notifyInfected(client.getPhone());
+            log.info("notifyInfected(): called. Send Message with twilio service to " + client.getPhone());
 
-        List<String> list = client
-                .getDates()
-                .stream()
-                .map(Date::getSavedCodes)
-                .flatMap(Collection::stream)
-                .distinct().collect(Collectors.toList());
-        list.forEach(s -> {
-            String userPhone = null;
-            try {
-                userPhone = getClientByUserId(s).getClientPhone();
-            } catch (NoSuchElementException e) {
-                log.error("Client with id " + s + " not present");
-            }
+            List<String> list = client
+                    .getDates()
+                    .stream()
+                    .map(Date::getSavedCodes)
+                    .flatMap(Collection::stream)
+                    .distinct().collect(Collectors.toList());
+            list.forEach(s -> {
+                String userPhone = null;
+                try {
+                    userPhone = getClientByClientId(s).getClientPhone();
+                } catch (NoSuchElementException e) {
+                    log.error("Client with id " + s + " not present");
+                }
 //            twilioService.notifyQuarantin(userPhone);
-            log.info("notifyQuarantin(): called. Send Message with twilio service to " + userPhone);
-        });
+                log.info("notifyQuarantin(): called. Send Message with twilio service to " + userPhone);
+            });
+        }
 
         clientRepository.save(client);
+    }
+
+    @Transactional
+    public void deleteClient(String clientId) {
+        clientRepository.deleteByClientId(clientId);
     }
 }
